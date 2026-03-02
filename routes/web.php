@@ -150,6 +150,22 @@ Route::middleware('auth')->group(function () {
         return view('client.profile.delete');
     })->name('profile.delete');
 
+    Route::get('/perfil/confirm-delete', function(){
+        return view('client.profile.confirm-delete');
+    })->name('profile.confirm-delete');
+
+    Route::post('/perfil/confirm-delete', function(\Illuminate\Http\Request $request) {
+        $request->validate([
+            'password' => ['required', 'string'],
+        ]);
+
+        if (!\Illuminate\Support\Facades\Hash::check($request->password, auth()->user()->password)) {
+            return back()->withErrors(['password' => 'La contraseña es inválida.']);
+        }
+
+        return redirect()->route('profile.delete');
+    })->name('profile.confirm-delete.verify');
+
     // Procesamiento de formularios
     Route::patch('/perfil', function () {
         return back();
@@ -159,8 +175,16 @@ Route::middleware('auth')->group(function () {
         return back();
     })->name('password.update');
 
-    Route::delete('/perfil/eliminar', function () {
-        return back();
+    Route::delete('/perfil/eliminar', function (\Illuminate\Http\Request $request) {
+        $user = auth()->user();
+
+        \Illuminate\Support\Facades\Auth::guard('web')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        $user->delete();
+
+        return redirect()->route('login')->with('account_deleted', true);
     })->name('profile.destroy');
 });
 
