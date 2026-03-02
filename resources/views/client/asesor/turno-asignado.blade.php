@@ -70,12 +70,6 @@
                         const mm = String(mins).padStart(2, '0');
                         document.getElementById('etaDisplay').textContent = mm + ':00';
                     }
-                    if (d.status === 'waiting' && d.created_at) {
-                        const waited = (Date.now() - new Date(d.created_at).getTime()) / 1000;
-                        if (waited > 20 * 60) {
-                            window.pushToast?.('delay', 'Estamos experimentando retrasos!');
-                        }
-                    }
                 })
                 .catch(() => {});
         }, 3000);

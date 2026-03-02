@@ -16,21 +16,29 @@
 
         <main class="flex flex-col items-center justify-center mt-6 px-6 w-full">
 
-            <script>
-                document.addEventListener('DOMContentLoaded', () => {
-                    const url = new URL(window.location.href);
-                    if (url.searchParams.get('expired') === '1') {
-                        window.pushToast?.('expired', 'Su turno ha expirado!');
-                    }
-                    if (url.searchParams.get('cancelled') === '1') {
-                        window.pushToast?.('cancelled', 'Su turno ha sido cancelado');
-                    }
-                    const serviceActive = {{ \App\Models\SystemSetting::isTurnGenerationActive() ? 'true' : 'false' }};
-                    if (!serviceActive) {
-                        window.pushToast?.('service', 'El banco se encuentra fuera de servicio');
-                    }
-                });
-            </script>
+            {{-- Mensajes de estado --}}
+            @if(session('error'))
+                <div class="bg-red-500/20 border border-red-400 text-red-100 px-6 py-3 rounded-xl mb-6 max-w-2xl w-full text-center">
+                    {{ session('error') }}
+                </div>
+            @endif
+
+            @if(session('success'))
+                <div class="bg-green-500/20 border border-green-400 text-green-100 px-6 py-3 rounded-xl mb-6 max-w-2xl w-full text-center">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            @if(request()->boolean('expired'))
+                <div class="bg-red-500/20 border border-red-400 text-red-100 px-6 py-3 rounded-xl mb-6 max-w-2xl w-full text-center">
+                    Tu turno ha expirado.
+                </div>
+            @endif
+            @if(request()->boolean('cancelled'))
+                <div class="bg-amber-500/20 border border-amber-400 text-amber-100 px-6 py-3 rounded-xl mb-6 max-w-2xl w-full text-center">
+                    Tu turno ha sido cancelado.
+                </div>
+            @endif
 
             {{-- Si el usuario ya tiene un turno activo, mostrar info --}}
             @php
@@ -53,23 +61,6 @@
                         </button>
                     </form>
                 </div>
-                <script>
-                    // Si el usuario permanece en espera más de 20 minutos, mostrar retrasos.
-                    setInterval(() => {
-                        fetch('{{ route('nova.turno.active') }}', { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
-                            .then(r => r.json())
-                            .then(d => {
-                                if (!d.has_turn) return;
-                                if (d.status === 'waiting' && d.created_at) {
-                                    const waited = (Date.now() - new Date(d.created_at).getTime()) / 1000;
-                                    if (waited > 20 * 60) {
-                                        window.pushToast?.('delay', 'Estamos experimentando retrasos!');
-                                    }
-                                }
-                            })
-                            .catch(() => {});
-                    }, 60000);
-                </script>
             @else
                 {{-- Título con espaciado amplio igual que el diseño --}}
                 <h1 class="text-[28px] md:text-[36px] font-bold tracking-[0.25em] text-center uppercase mb-20 drop-shadow-md">

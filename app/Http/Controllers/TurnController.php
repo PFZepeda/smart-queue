@@ -137,7 +137,6 @@ class TurnController extends Controller
             'counter_label' => $turn->serviceCounter->label,
             'status' => $turn->status,
             'service_type' => $turn->service_type,
-            'created_at' => optional($turn->created_at)?->toIso8601String(),
             'eta_seconds' => $etaSeconds,
         ]);
     }
