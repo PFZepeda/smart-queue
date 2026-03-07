@@ -41,10 +41,24 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
             abort(403);
         }
 
+        $totalGenerados = \App\Models\Turn::count();
+        $totalExpirados = \App\Models\Turn::where('status', 'expired')->count();
+        $totalCancelados = \App\Models\Turn::where('status', 'cancelled')->count();
+        $totalFinalizados = \App\Models\Turn::where('status', 'completed')->count();
+        $atendidosExito = $totalFinalizados;
+        $promedioExito = $totalGenerados > 0
+            ? round(($atendidosExito / $totalGenerados) * 100, 1)
+            : 0;
+
         return view('admin.dashboard', [
             'ventanillas' => \App\Models\ServiceCounter::where('type', 'ventanilla')->get(),
             'asesores' => \App\Models\ServiceCounter::where('type', 'asesor')->get(),
             'isActive' => \App\Models\SystemSetting::isTurnGenerationActive(),
+            'totalGenerados' => $totalGenerados,
+            'totalExpirados' => $totalExpirados,
+            'totalCancelados' => $totalCancelados,
+            'totalFinalizados' => $totalFinalizados,
+            'promedioExito' => $promedioExito,
         ]);
     })->name('admin.dashboard');
 
@@ -68,6 +82,9 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
 
     Route::post('/area/{counter}/enable', [TurnManagementController::class, 'enableArea'])
         ->name('admin.area.enable');
+
+    Route::get('/reporte/descargar', [\App\Http\Controllers\Admin\ReportExportController::class, 'export'])
+        ->name('admin.report.export');
 });
 
 // =========================================================

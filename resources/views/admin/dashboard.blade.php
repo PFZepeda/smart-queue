@@ -273,8 +273,38 @@
             <h1 class="text-[26px] font-bold tracking-wider uppercase mb-12 text-center w-full">
                 Analíticas
             </h1>
-            
-            {{-- Aquí irá el contenido de las analíticas en el futuro --}}
+
+            {{-- Grid de estadísticas principales --}}
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 w-full max-w-[1000px] mb-12 text-center">
+                <div>
+                    <h3 class="text-[16px] font-bold leading-tight mb-3">Total de turnos<br>Generados:</h3>
+                    <p class="text-[28px] font-bold">{{ $totalGenerados }}</p>
+                </div>
+                <div>
+                    <h3 class="text-[16px] font-bold leading-tight mb-3">Total de turnos<br>Expirados:</h3>
+                    <p class="text-[28px] font-bold">{{ $totalExpirados }}</p>
+                </div>
+                <div>
+                    <h3 class="text-[16px] font-bold leading-tight mb-3">Total de turnos<br>Cancelados:</h3>
+                    <p class="text-[28px] font-bold">{{ $totalCancelados }}</p>
+                </div>
+                <div>
+                    <h3 class="text-[16px] font-bold leading-tight mb-3">Total de turnos<br>Finalizados:</h3>
+                    <p class="text-[28px] font-bold">{{ $totalFinalizados }}</p>
+                </div>
+            </div>
+
+            {{-- Promedio y botón de reporte --}}
+            <div class="flex flex-col md:flex-row items-center justify-center gap-12 w-full max-w-[1000px] mb-24">
+                <div class="text-center">
+                    <h3 class="text-[16px] font-bold leading-tight mb-3">Promedio de<br>personas atendidas<br>con éxito:</h3>
+                    <p class="text-[28px] font-bold">{{ $promedioExito }}%</p>
+                </div>
+                <a href="{{ route('admin.report.export') }}"
+                   class="bg-[#02B48A] hover:bg-[#029A73] text-white px-10 py-5 rounded-2xl font-bold text-[18px] transition-all active:scale-95 shadow-xl min-w-[220px] text-center">
+                    Descargar reporte
+                </a>
+            </div>
 
         </main>
     </div>
