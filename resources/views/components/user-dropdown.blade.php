@@ -17,7 +17,14 @@
 
             {{-- Encabezado del Dropdown --}}
             <div class="px-6 py-4 border-b border-white/10 bg-white/5">
-                <p class="text-white text-sm font-bold truncate">Administrador</p>
+                <p class="text-white text-sm font-bold truncate">
+                    {{ match (auth()->user()->role) {
+                        'operador' => 'Operador',
+                        'cliente' => 'Cliente',
+                        'administrador' => 'Administrador',
+                        default => 'Usuario',
+                    } }}
+                </p>
                 <p class="text-gray-400 text-xs truncate">{{ auth()->user()->email }}</p>
             </div>
 

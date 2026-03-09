@@ -7,27 +7,27 @@
         class="fixed inset-0 w-full h-full overflow-y-auto bg-[#0C4D8B] font-['Source_Sans_3'] text-white z-50 flex flex-col">
 
         {{-- HEADER --}}
-        <header class="flex justify-between items-center px-14 py-8 w-full shrink-0">
+        <header class="flex justify-between items-center px-4 sm:px-8 md:px-14 py-5 sm:py-7 md:py-8 w-full shrink-0">
             <div>
-                <img src="{{ asset('images/Logo_1.svg') }}" alt="NovaBank" class="w-[200px] h-auto">
+                <img src="{{ asset('images/Logo_1.svg') }}" alt="NovaBank" class="w-[145px] sm:w-[175px] md:w-[200px] h-auto">
             </div>
             <x-user-dropdown />
         </header>
 
-        <main class="flex-grow flex items-center justify-center px-8 pb-24 relative">
+        <main class="flex-grow flex items-center justify-center px-4 sm:px-7 md:px-8 pb-24 sm:pb-20 relative">
 
             {{-- TARJETA --}}
             <div
                 class="bg-[#072b4e] rounded-[2.5rem] px-14 py-14 w-full max-w-4xl
-                       shadow-2xl flex flex-col md:flex-row items-center gap-14
+                      shadow-2xl flex flex-col lg:flex-row items-center gap-8 sm:gap-12 lg:gap-14
                        border border-white/5">
 
                 {{-- CONTENIDO --}}
-                <div class="flex-1 w-full space-y-8">
+                <div class="flex-1 w-full space-y-6 sm:space-y-8">
 
                     <div class="space-y-2">
-                        <h2 class="text-4xl font-bold">Perfil</h2>
-                        <p class="text-gray-300 text-base">
+                        <h2 class="text-[1.9rem] sm:text-4xl font-bold">Perfil</h2>
+                        <p class="text-gray-300 text-sm sm:text-base">
                             Información registrada en el sistema
                         </p>
                     </div>
@@ -40,7 +40,7 @@
 
                         <input type="text" value="{{ old('name', auth()->user()->name) }}" readonly
                             class="w-full bg-[#4D647C]
-                                   rounded-xl py-4 px-6 text-white
+                                   rounded-xl py-3 sm:py-4 px-5 sm:px-6 text-white
                                    border border-white/10
                                    focus:ring-2 focus:ring-[#02B48A]
                                    transition-all
@@ -55,7 +55,7 @@
 
                         <input type="email" value="{{ old('email', auth()->user()->email) }}" readonly
                             class="w-full bg-[#4D647C]
-                                   rounded-xl py-4 px-6 text-white
+                                   rounded-xl py-3 sm:py-4 px-5 sm:px-6 text-white
                                    border border-white/10
                                    focus:ring-2 focus:ring-[#02B48A]
                                    transition-all
@@ -75,19 +75,19 @@
                 </div>
 
                 {{-- Logo lateral --}}
-                <div class="hidden md:flex flex-col items-center flex-1">
+                <div class="hidden lg:flex flex-col items-center flex-1">
                     <img src="{{ asset('images/Logo_1.svg') }}" alt="NovaBank"
                         class="w-[300px] opacity-85 select-none pointer-events-none">
                 </div>
             </div>
 
             {{-- BOTÓN REGRESAR --}}
-            <div class="fixed bottom-12 right-14">
-                <a href="{{ route('nova.index') }}"
+            <div class="fixed bottom-4 inset-x-4 sm:inset-x-auto sm:bottom-10 sm:right-10 md:bottom-12 md:right-14">
+                <a href="{{ auth()->user()->isAdmin() ? route('admin.dashboard') : (auth()->user()->isOperador() ? route('advisor.dashboard') : route('nova.index')) }}"
                     class="bg-[#02B48A] hover:bg-[#019875]
-                           text-white font-bold py-4 px-10
-                           rounded-2xl text-lg
-                           shadow-2xl transition-all active:scale-95">
+                           text-white font-bold py-3 sm:py-4 px-8 sm:px-10
+                           rounded-xl sm:rounded-2xl text-base sm:text-lg
+                           shadow-2xl transition-all active:scale-95 block text-center">
                     Regresar
                 </a>
             </div>

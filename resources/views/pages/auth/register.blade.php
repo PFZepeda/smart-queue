@@ -12,31 +12,36 @@
         input[type="password"]::-webkit-clear-button {
             display: none !important;
         }
+
+        @media (max-height: 760px) {
+            .register-wrapper {
+                justify-content: flex-start;
+            }
+        }
     </style>
 
-    <div class="fixed inset-0 flex flex-col items-center justify-center bg-[#0C4D8B] z-50 font-['Source_Sans_3']">
-        
-        <div class="mb-10 text-center flex flex-col items-center">
-            <img src="{{ asset('images/Logo_1.svg') }}" alt="Logo NovaBank" class="w-[220px] h-auto">
-        </div>
-
-        <div class="w-full max-w-[440px] min-h-[540px] flex flex-col justify-between bg-[#072b4e] px-10 py-12 rounded-[1.5rem] shadow-2xl border border-white/5">
+    <div class="register-wrapper fixed inset-0 flex flex-col items-center justify-center bg-[#0C4D8B] z-50 font-['Source_Sans_3'] overflow-y-auto px-4 py-6 sm:px-6 sm:py-8">
+        <div class="w-full max-w-[440px] max-h-[calc(100vh-3rem)] sm:max-h-[calc(100vh-4rem)] flex flex-col overflow-y-auto bg-[#072b4e] px-6 sm:px-8 md:px-10 py-8 sm:py-10 md:py-12 rounded-[1.3rem] sm:rounded-[1.5rem] shadow-2xl border border-white/5">
             
             <div class="w-full">
-                <h2 class="text-white text-center !text-[1.5rem] font-semibold mb-4 tracking-wide">
+                <div class="mb-6 sm:mb-7 text-center flex flex-col items-center">
+                    <img src="{{ asset('images/Logo_1.svg') }}" alt="Logo NovaBank" class="w-[150px] sm:w-[180px] md:w-[200px] h-auto">
+                </div>
+
+                <h2 class="text-white text-center text-[1.35rem] sm:!text-[1.5rem] font-semibold mb-4 tracking-wide">
                     Crear cuenta
                 </h2>
 
                 <p class="text-gray-400 text-[11px] text-center mb-6">Los campos obligatorios tienen <span class="text-red-400">*</span></p>
 
-                <form method="POST" action="{{ route('register.store') }}" class="flex flex-col gap-4">
+                <form method="POST" action="{{ route('register.store') }}" class="flex flex-col gap-3.5 sm:gap-4">
                     @csrf
 
                     {{-- 1. Nombre --}}
                     <div class="flex flex-col">
                         <label class="text-white text-[13px] font-medium mb-1.5 pl-2">Nombre completo <span class="text-red-400">*</span></label>
                         <input type="text" name="name" placeholder="Ingresa tu nombre completo" required value="{{ old('name') }}"
-                            class="w-full bg-[#3B4B5B] text-white border-none rounded-full py-3 px-6 focus:ring-2 focus:ring-[#02B48A] outline-none !text-[16px] placeholder:!text-[14px] placeholder:text-[#94A3B8] transition-all">
+                            class="w-full bg-[#3B4B5B] text-white border-none rounded-full py-2.5 sm:py-3 px-5 sm:px-6 focus:ring-2 focus:ring-[#02B48A] outline-none !text-[16px] placeholder:!text-[14px] placeholder:text-[#94A3B8] transition-all">
                         
                         @error('name')
                             <p class="text-[#ef4444] !text-[12px] text-center mt-2 font-medium">
@@ -49,7 +54,7 @@
                     <div class="flex flex-col">
                         <label class="text-white text-[13px] font-medium mb-1.5 pl-2">Correo electrónico <span class="text-red-400">*</span></label>
                         <input type="email" name="email" placeholder="ejemplo@correo.com" required value="{{ old('email') }}"
-                            class="w-full bg-[#3B4B5B] text-white border-none rounded-full py-3 px-6 focus:ring-2 focus:ring-[#02B48A] outline-none !text-[16px] placeholder:!text-[14px] placeholder:text-[#94A3B8] transition-all">
+                            class="w-full bg-[#3B4B5B] text-white border-none rounded-full py-2.5 sm:py-3 px-5 sm:px-6 focus:ring-2 focus:ring-[#02B48A] outline-none !text-[16px] placeholder:!text-[14px] placeholder:text-[#94A3B8] transition-all">
                         
                         @error('email')
                             <p class="text-[#ef4444] !text-[12px] text-center mt-2 font-medium">
@@ -63,7 +68,7 @@
                         <label class="text-white text-[13px] font-medium mb-1.5 pl-2">Contraseña <span class="text-red-400">*</span></label>
                         <div class="relative w-full">
                             <input :type="show ? 'text' : 'password'" name="password" placeholder="Entre 8 y 10 caracteres (letras y números)" required
-                                class="w-full bg-[#3B4B5B] text-white border-none rounded-full py-3 px-6 pr-12 focus:ring-2 focus:ring-[#02B48A] outline-none !text-[16px] placeholder:!text-[14px] placeholder:text-[#94A3B8] transition-all">
+                                class="w-full bg-[#3B4B5B] text-white border-none rounded-full py-2.5 sm:py-3 px-5 sm:px-6 pr-12 focus:ring-2 focus:ring-[#02B48A] outline-none !text-[16px] placeholder:!text-[14px] placeholder:text-[#94A3B8] transition-all">
                             
                             <button type="button" @click="show = !show" class="absolute inset-y-0 right-0 pr-4 flex items-center text-[#94A3B8] hover:text-white focus:outline-none">
                                 <svg x-show="!show" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -88,7 +93,7 @@
                         <label class="text-white text-[13px] font-medium mb-1.5 pl-2">Confirmar contraseña <span class="text-red-400">*</span></label>
                         <div class="relative w-full">
                             <input :type="show ? 'text' : 'password'" name="password_confirmation" placeholder="Repite tu contraseña" required
-                                class="w-full bg-[#3B4B5B] text-white border-none rounded-full py-3 px-6 pr-12 focus:ring-2 focus:ring-[#02B48A] outline-none !text-[16px] placeholder:!text-[14px] placeholder:text-[#94A3B8] transition-all">
+                                class="w-full bg-[#3B4B5B] text-white border-none rounded-full py-2.5 sm:py-3 px-5 sm:px-6 pr-12 focus:ring-2 focus:ring-[#02B48A] outline-none !text-[16px] placeholder:!text-[14px] placeholder:text-[#94A3B8] transition-all">
                             
                             <button type="button" @click="show = !show" class="absolute inset-y-0 right-0 pr-4 flex items-center text-[#94A3B8] hover:text-white focus:outline-none">
                                 <svg x-show="!show" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -109,13 +114,13 @@
                     </div>
 
                     <button type="submit" 
-                        class="w-full bg-[#02B48A] hover:bg-[#029A73] text-white font-bold py-3.5 rounded-full mt-4 transition-all shadow-lg active:scale-95 !text-[16px] cursor-pointer">
+                        class="w-full bg-[#02B48A] hover:bg-[#029A73] text-white font-bold py-3.5 rounded-full mt-3 sm:mt-4 transition-all shadow-lg active:scale-95 !text-[16px] cursor-pointer">
                         {{ __('Registrar cuenta') }}
                     </button>
                 </form>
             </div>
 
-            <div class="mt-auto text-center pt-6 flex justify-between items-center px-2">
+            <div class="text-center pt-5 sm:pt-6 flex justify-between items-center px-1 sm:px-2 gap-3">
                 <span class="text-[#94A3B8] !text-[14px]">{{ __('¿Ya tienes cuenta?') }}</span>
                 <a href="{{ route('login') }}" class="text-white !text-[14px] font-semibold hover:underline transition-colors">
                     {{ __('Iniciar sesión') }}

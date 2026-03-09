@@ -9,25 +9,25 @@
     <div class="fixed inset-0 w-full h-full overflow-y-auto bg-[#0C4D8B] font-['Source_Sans_3'] text-white z-50">
 
         {{-- HEADER --}}
-        <header class="flex justify-between items-center px-12 py-6 w-full">
+        <header class="flex justify-between items-center px-4 sm:px-8 md:px-12 py-5 sm:py-6 w-full">
             <div>
-                <img src="{{ asset('images/Logo_1.svg') }}" alt="NovaBank" class="w-[180px] h-auto">
+                <img src="{{ asset('images/Logo_1.svg') }}" alt="NovaBank" class="w-[140px] sm:w-[165px] md:w-[180px] h-auto">
             </div>
 
             <x-user-dropdown />
         </header>
 
-        <main class="flex items-center justify-center px-6 min-h-[75vh]">
+        <main class="flex items-center justify-center px-4 sm:px-6 min-h-[75vh] pb-24 sm:pb-16">
 
             {{-- TARJETA --}}
             <div
                 class="bg-[#072b4e] rounded-3xl px-10 py-10 w-full max-w-3xl
-                        shadow-xl flex items-center gap-10 border border-white/5">
+                    shadow-xl flex flex-col lg:flex-row items-start lg:items-center gap-7 sm:gap-10 border border-white/5 px-5 sm:px-8 md:px-10 py-6 sm:py-8 md:py-10">
 
                 <div class="flex-1">
 
-                    <h2 class="text-3xl font-bold mb-1">Cambiar contraseña</h2>
-                    <p class="text-gray-300 mb-8 text-sm">
+                    <h2 class="text-[1.7rem] sm:text-3xl font-bold mb-1">Cambiar contraseña</h2>
+                    <p class="text-gray-300 mb-6 sm:mb-8 text-[13px] sm:text-sm">
                         Aquí puedes actualizar tu contraseña para mantener tu cuenta segura. Asegúrate de elegir una contraseña fuerte y única.
                     </p>
 
@@ -41,7 +41,7 @@
                         </div>
                     @endif
 
-                    <form method="POST" action="{{ route('profile.password.update') }}" class="space-y-5">
+                    <form method="POST" action="{{ route('profile.password.update') }}" class="space-y-4 sm:space-y-5">
                         @csrf
 
                         {{-- Contraseña actual --}}
@@ -52,7 +52,7 @@
                             <div class="relative w-full">
                                 <input :type="show ? 'text' : 'password'" name="current_password"
                                     placeholder="Introduce tu contraseña"
-                                    class="w-full bg-[#4D647C] rounded-xl py-3 px-5 pr-12
+                                     class="w-full bg-[#4D647C] rounded-xl py-2.5 sm:py-3 px-4 sm:px-5 pr-12
                                            text-white placeholder-gray-400
                                            focus:outline-none focus:ring-2 focus:ring-[#007A7C]
                                            transition-all text-sm
@@ -86,7 +86,7 @@
                             <div class="relative w-full">
                                 <input :type="show ? 'text' : 'password'" name="password"
                                     placeholder="Introduce tu nueva contraseña"
-                                    class="w-full bg-[#4D647C] rounded-xl py-3 px-5 pr-12
+                                     class="w-full bg-[#4D647C] rounded-xl py-2.5 sm:py-3 px-4 sm:px-5 pr-12
                                            text-white placeholder-gray-400
                                            focus:outline-none focus:ring-2 focus:ring-[#007A7C]
                                            transition-all text-sm
@@ -121,7 +121,7 @@
                             <div class="relative w-full">
                                 <input :type="show ? 'text' : 'password'" name="password_confirmation"
                                     placeholder="Confirma tu contraseña"
-                                    class="w-full bg-[#4D647C] rounded-xl py-3 px-5 pr-12
+                                     class="w-full bg-[#4D647C] rounded-xl py-2.5 sm:py-3 px-4 sm:px-5 pr-12
                                            text-white placeholder-gray-400
                                            focus:outline-none focus:ring-2 focus:ring-[#007A7C]
                                            transition-all text-sm">
@@ -141,7 +141,7 @@
                         <button type="submit"
                             class="w-full bg-[#007A7C] hover:bg-[#005f61]
                                    text-white font-semibold py-3
-                                   rounded-xl text-base
+                                   rounded-xl text-sm sm:text-base
                                    shadow-md transition-all active:scale-[0.98]">
                             Guardar cambios
                         </button>
@@ -149,19 +149,19 @@
                 </div>
 
                 {{-- Logo lateral --}}
-                <div class="hidden md:flex flex-col items-center">
+                <div class="hidden lg:flex flex-col items-center">
                     <img src="{{ asset('images/Logo_1.svg') }}" alt="NovaBank" class="w-[220px] opacity-70">
                 </div>
 
             </div>
 
             {{-- BOTÓN REGRESAR --}}
-            <div class="fixed bottom-10 right-12">
-                <a href="{{ route('nova.index') }}"
+            <div class="fixed bottom-4 inset-x-4 sm:inset-x-auto sm:bottom-8 sm:right-10 md:bottom-10 md:right-12">
+                <a href="{{ auth()->user()->isAdmin() ? route('admin.dashboard') : (auth()->user()->isOperador() ? route('advisor.dashboard') : route('nova.index')) }}"
                     class="bg-[#02B48A] hover:bg-[#019875]
                            text-white font-semibold py-3 px-8
                            rounded-xl text-sm
-                           shadow-lg transition-all active:scale-95">
+                           shadow-lg transition-all active:scale-95 block text-center">
                     Regresar
                 </a>
             </div>

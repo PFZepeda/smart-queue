@@ -12,6 +12,12 @@
         input[type="password"]::-webkit-clear-button {
             display: none !important;
         }
+
+        @media (max-height: 740px) {
+            .auth-login-wrapper {
+                justify-content: flex-start;
+            }
+        }
     </style>
 
     {{-- Notificación slide-in: cuenta eliminada --}}
@@ -26,7 +32,7 @@
             x-transition:leave="transition ease-in duration-300"
             x-transition:leave-start="translate-x-0 opacity-100"
             x-transition:leave-end="translate-x-full opacity-0"
-            class="fixed top-8 right-8 z-[100] flex items-center gap-4 bg-[#072b4e] text-white px-6 py-4 rounded-2xl shadow-2xl border border-white/5 max-w-sm"
+            class="fixed top-4 right-4 left-4 sm:left-auto sm:top-6 sm:right-6 z-[100] flex items-center gap-3 sm:gap-4 bg-[#072b4e] text-white px-4 sm:px-6 py-3 sm:py-4 rounded-2xl shadow-2xl border border-white/5 max-w-sm"
         >
             {{-- Icono X rojo --}}
             <span class="flex-shrink-0 bg-[#0f1c2e] rounded-xl p-2">
@@ -34,49 +40,49 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                 </svg>
             </span>
-            <span class="font-bold text-base leading-snug">Tu cuenta ha sido eliminada con éxito</span>
+            <span class="font-bold text-sm sm:text-base leading-snug">Tu cuenta ha sido eliminada con éxito</span>
         </div>
     @endif
 
-    <div class="fixed inset-0 flex flex-col items-center justify-center bg-[#0C4D8B] z-50 font-['Source_Sans_3']">
+    <div class="auth-login-wrapper fixed inset-0 flex flex-col items-center justify-center bg-[#0C4D8B] z-50 font-['Source_Sans_3'] overflow-y-auto px-4 py-6 sm:px-6 sm:py-8 md:py-10">
         
         {{-- LOGO: Ajustado a 220px para coincidir --}}
-        <div class="mb-10 text-center flex flex-col items-center">
+        <div class="mb-6 sm:mb-8 md:mb-10 text-center flex flex-col items-center">
             <img 
                 src="{{ asset('images/Logo_1.svg') }}" 
                 alt="Logo NovaBank" 
-                class="w-[220px] h-auto object-contain"
+                class="w-[160px] sm:w-[190px] md:w-[220px] h-auto object-contain"
             >
         </div>
 
         {{-- TARJETA PRINCIPAL --}}
-        <div class="w-full max-w-[440px] min-h-[540px] flex flex-col justify-between bg-[#072b4e] px-10 py-12 rounded-[1.5rem] shadow-2xl border border-white/5">
+        <div class="w-full max-w-[440px] min-h-[500px] sm:min-h-[520px] md:min-h-[540px] flex flex-col justify-between bg-[#072b4e] px-5 sm:px-8 md:px-10 py-7 sm:py-10 md:py-12 rounded-[1.2rem] sm:rounded-[1.4rem] md:rounded-[1.5rem] shadow-2xl border border-white/5">
             
             <div class="w-full">
-                <h2 class="text-white text-center text-[1.15rem] font-normal mb-4 tracking-wide">
+                <h2 class="text-white text-center text-[1.05rem] sm:text-[1.1rem] md:text-[1.15rem] font-normal mb-3 sm:mb-4 tracking-wide">
                     Bienvenido
                 </h2>
 
-                <p class="text-gray-400 text-[11px] text-center mb-6">Los campos obligatorios tienen <span class="text-red-400">*</span></p>
+                <p class="text-gray-400 text-[11px] sm:text-[12px] text-center mb-5 sm:mb-6">Los campos obligatorios tienen <span class="text-red-400">*</span></p>
 
                 <form method="POST" action="{{ route('login.store') }}" class="flex flex-col">
                     @csrf
 
                     {{-- Campo Correo --}}
-                    <div class="mb-5">
-                        <label class="block text-gray-300 text-[13px] mb-2" for="email">Correo electrónico <span class="text-red-400">*</span></label>
+                    <div class="mb-4 sm:mb-5">
+                        <label class="block text-gray-300 text-[12px] sm:text-[13px] mb-2" for="email">Correo electrónico <span class="text-red-400">*</span></label>
                         <input 
                             id="email"
                             type="text" 
                             name="email" 
                             placeholder="ejemplo@novabank.com" 
-                            class="w-full bg-[#3B4B5B] text-white border-none rounded-full py-2.5 px-4 focus:ring-2 focus:ring-[#02B48A] placeholder-gray-400 outline-none text-sm transition-all"
+                            class="w-full bg-[#3B4B5B] text-white border-none rounded-full py-2.5 sm:py-3 px-4 focus:ring-2 focus:ring-[#02B48A] placeholder-gray-400 outline-none text-sm transition-all"
                         >
                     </div>
 
                     {{-- Campo Contraseña (Con botón personalizado) --}}
                     <div class="mb-2" x-data="{ show: false }">
-                        <label class="block text-gray-300 text-[13px] mb-2" for="password">Contraseña <span class="text-red-400">*</span></label>
+                        <label class="block text-gray-300 text-[12px] sm:text-[13px] mb-2" for="password">Contraseña <span class="text-red-400">*</span></label>
                         <div class="relative w-full">
                             <input 
                                 id="password"
@@ -85,7 +91,7 @@
                                 placeholder="••••••••" 
                                 required
                                 {{-- Se agregó pr-12 para que el texto no pise el icono --}}
-                                class="w-full bg-[#3B4B5B] text-white border-none rounded-full py-2.5 px-4 pr-12 focus:ring-2 focus:ring-[#02B48A] placeholder-gray-400 outline-none text-sm transition-all"
+                                class="w-full bg-[#3B4B5B] text-white border-none rounded-full py-2.5 sm:py-3 px-4 pr-12 focus:ring-2 focus:ring-[#02B48A] placeholder-gray-400 outline-none text-sm transition-all"
                             >
                             
                             {{-- Botón Ojo Absoluto --}}
@@ -141,7 +147,7 @@
                     @endif
 
                     {{-- Link Recuperar --}}
-                    <div class="flex justify-end mb-10 pr-2 mt-1">
+                    <div class="flex justify-end mb-7 sm:mb-9 md:mb-10 pr-1 sm:pr-2 mt-1">
                         <a href="{{ route('password.request') }}" class="text-[#94A3B8] text-[12px] hover:text-white transition-colors">
                             Recuperar contraseña
                         </a>
@@ -154,7 +160,7 @@
             </div>
 
             {{-- Enlace Inferior --}}
-            <div class="mt-auto text-center pt-6 flex justify-between items-center px-2">
+            <div class="mt-auto text-center pt-5 sm:pt-6 flex justify-between items-center px-1 sm:px-2 gap-3">
                 <span class="text-[#94A3B8] text-[12px]">¿No tienes cuenta?</span>
                 <a href="{{ route('register') }}" class="text-white text-[12px] hover:underline transition-colors font-semibold">
                     Registrar cuenta

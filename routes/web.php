@@ -28,14 +28,24 @@ Route::post('/logout/inactivity', function (Request $request) {
     return redirect()->route('login')->with('inactivity', true);
 })->middleware('auth')->name('logout.inactivity');
 
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
+Route::get('dashboard', function () {
+    $user = auth()->user();
+
+    if ($user?->isAdmin()) {
+        return redirect()->route('admin.dashboard');
+    }
+
+    if ($user?->isOperador()) {
+        return redirect()->route('advisor.dashboard');
+    }
+
+    return redirect()->route('nova.index');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
 // =========================================================
 // RUTAS DE ADMINISTRADOR
 // =========================================================
-Route::middleware(['auth'])->prefix('admin')->group(function () {
+Route::middleware(['auth', 'role:administrador'])->prefix('admin')->group(function () {
     Route::get('/dashboard', function () {
         if (! auth()->user()->isAdmin()) {
             abort(403);
@@ -90,7 +100,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
 // =========================================================
 // FLUJO DE NOVABANK (CLIENTES) - Con autenticación
 // =========================================================
-Route::middleware(['auth'])->prefix('nova')->group(function () {
+Route::middleware(['auth', 'role:cliente'])->prefix('nova')->group(function () {
 
     // 1. Pantalla principal: Selección de trámite
     Route::get('/', function () {
@@ -140,7 +150,7 @@ Route::middleware(['auth'])->prefix('nova')->group(function () {
 // =========================================================
 // FLUJO DEL TRABAJADOR (ASESOR)
 // =========================================================
-Route::middleware(['auth'])->prefix('gestion-turnos')->group(function () {
+Route::middleware(['auth', 'role:operador'])->prefix('gestion-turnos')->group(function () {
     Route::get('/', function () {
         $counters = \App\Models\ServiceCounter::all();
 
